@@ -57,16 +57,13 @@ public class Answers {
      * @return The formatted list of key value answers
      */
     @Override
-    @TargetApi(value = 11)
     public String toString(){
         //A StringBuilder constructs a string and can handle different data types such as String or int
         StringBuilder sb = new StringBuilder();
         for (Pair<String, String> answer:
         this.answers){
-            //sb.append(answer.getKey());
             sb.append(answer.first);
             sb.append(". ");
-            //sb.append(answer.getValue());
             sb.append(answer.second);
             sb.append("\n");
         }

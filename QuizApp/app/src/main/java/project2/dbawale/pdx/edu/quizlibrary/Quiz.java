@@ -106,7 +106,6 @@ public class Quiz {
      * Also sets the correct answers for each question.
      * If you want to set up the default quiz and play with it, just call this method.
      */
-    @TargetApi(value = 11)
     public void setupDefaultQuiz(){
         questions = new ArrayList<>();
         title = "Capital Cities of the World!";

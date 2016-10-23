@@ -27,16 +27,38 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context=".MainQuizActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Text"
         android:id="@+id/textview1" />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/default_radio_group">
+        <!--<RadioButton-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/radio_answer_1"/>-->
+        <!--<RadioButton-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/radio_answer_2"/>-->
+        <!--<RadioButton-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+             <!--android:id="@+id/radio_answer_3"/>-->
+        <!--<RadioButton-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/radio_answer_4"/>-->
+    </RadioGroup>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Click me"
-        android:id="@+id/button1" />
+        android:id="@+id/button1"/>
 
 </LinearLayout>

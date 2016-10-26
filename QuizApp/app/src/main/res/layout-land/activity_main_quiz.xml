@@ -38,22 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/default_radio_group">
-        <!--<RadioButton-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/radio_answer_1"/>-->
-        <!--<RadioButton-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/radio_answer_2"/>-->
-        <!--<RadioButton-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-             <!--android:id="@+id/radio_answer_3"/>-->
-        <!--<RadioButton-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/radio_answer_4"/>-->
     </RadioGroup>
     <Button
         android:layout_width="wrap_content"

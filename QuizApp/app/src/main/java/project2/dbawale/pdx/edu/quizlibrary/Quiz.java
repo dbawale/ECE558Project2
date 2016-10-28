@@ -70,7 +70,6 @@ public class Quiz {
      * @return The shuffled list of Question objects
      */
     public  ArrayList<Question> getQuestions() {
-        Collections.shuffle(questions);
         return questions;
     }
 
@@ -179,6 +178,5 @@ public class Quiz {
         a.addAnswer(new Pair<>("d","Salvador"));
         q = new Question("What is the capital of Brazil?",a,"c");
         questions.add(q);
-        Collections.shuffle(questions);
     }
 }

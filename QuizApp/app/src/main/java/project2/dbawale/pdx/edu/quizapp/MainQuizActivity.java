@@ -23,6 +23,7 @@ public class MainQuizActivity extends Activity {
     //String for identifying question number from a Bundle
     private final String QUESTION_NUMBER = "edu.pdx.dbawale.project2.questionnumber";
     private final String QUESTION_TEXT_VIEW = "edu.pdx.dbawale.project2.questiontextview";
+    private final String RADIO_BTN_INDEX = "edu.pdx.dbawale.project2.radiobuttonindex";
 
     //Android widgets for displaying questions and controlling the quiz
     TextView questionTextView;
@@ -93,6 +94,7 @@ public class MainQuizActivity extends Activity {
         for(int i=0;i<numberofradiobtns;i++) {
             RadioButton radiobutton = new RadioButton(this);
             radiobutton.setText(questions.get(currentquestionnumber).getAnswers().getAnswers().get(i).second);
+            radiobutton.setId(i);
             group.addView(radiobutton);
         }
     }
@@ -107,6 +109,7 @@ public class MainQuizActivity extends Activity {
             currentquestionnumber = savedInstanceState.getInt(QUESTION_NUMBER);
             if(currentquestionnumber <numberofquestions){
                 addViewToLayout();
+                answergroup.check(savedInstanceState.getInt(RADIO_BTN_INDEX));
             }
             else
             {
@@ -134,5 +137,6 @@ public class MainQuizActivity extends Activity {
     public void onSaveInstanceState(Bundle instanceState){
         instanceState.putInt(QUESTION_NUMBER,currentquestionnumber);
         instanceState.putString(QUESTION_TEXT_VIEW,questionTextView.getText().toString());
+        instanceState.putInt(RADIO_BTN_INDEX,answergroup.getCheckedRadioButtonId());
     }
 }

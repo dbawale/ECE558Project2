@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">QuizApp</string>
-    <string name="game_over">Game Over!</string>
+    <string name="game_over">Game Over! Your score is: </string>
+    <string name="next">Next</string>
+    <string name="textviewplaceholder">Text</string>
+    <string name="correctanswer">Correct Answer!</string>
+    <string name="incorrectanswer">Incorrect Answer!</string>
 </resources>

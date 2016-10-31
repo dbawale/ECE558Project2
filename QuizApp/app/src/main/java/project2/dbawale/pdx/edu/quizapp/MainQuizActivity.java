@@ -2,11 +2,14 @@ package project2.dbawale.pdx.edu.quizapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,10 +23,15 @@ import project2.dbawale.pdx.edu.quizlibrary.*;
  * Class for the main quiz app activity
  */
 public class MainQuizActivity extends Activity {
+    //String for log tag for main activity
+    private final String LOG_TAG = "MAIN_ACTIVITY";
+
     //String for identifying question number from a Bundle
     private final String QUESTION_NUMBER = "edu.pdx.dbawale.project2.questionnumber";
     private final String QUESTION_TEXT_VIEW = "edu.pdx.dbawale.project2.questiontextview";
     private final String RADIO_BTN_INDEX = "edu.pdx.dbawale.project2.radiobuttonindex";
+    private final String IS_QUESTION_CORRECT = "edu.pdx.dbawale.project2.iscorrectboolean";
+    private final String GAME_SCORE = "edu.pdx.dbawale.project2.score";
 
     //Android widgets for displaying questions and controlling the quiz
     TextView questionTextView;
@@ -34,6 +42,10 @@ public class MainQuizActivity extends Activity {
     ArrayList<Question>questions;
     int numberofquestions,currentquestionnumber=0;
     Quiz quiz;
+
+    //Other variables required for app functionality
+    Boolean isCorrect=false;
+    int score=0;
 
     /**
      * The onCreate method for the main activity
@@ -65,19 +77,39 @@ public class MainQuizActivity extends Activity {
         nextbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isCorrect){
+                    Toast.makeText(MainQuizActivity.this,R.string.correctanswer,Toast.LENGTH_SHORT).show();
+                    score +=1;
+                }
+                else{
+                    Toast.makeText(MainQuizActivity.this,R.string.incorrectanswer,Toast.LENGTH_SHORT).show();
+                }
 
                 //First, clear the layout
                 answergroup.removeAllViews();
 
-                //The, load the layout again
+                //Then, load the layout again
                 currentquestionnumber +=1;
                 if(currentquestionnumber <numberofquestions){
                     addViewToLayout();
                 }
                 else{
-                    questionTextView.setText(R.string.game_over);
-                    nextbutton.setEnabled(false);
+                    String final_string = "Game over!\nYour score is: "+ score;
+                    questionTextView.setText(final_string);
+                    Log.d(LOG_TAG,String.valueOf(score));
+                    nextbutton.setVisibility(View.GONE);
+
                 }
+            }
+        });
+
+        answergroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.d(LOG_TAG,questions.get(currentquestionnumber).getCorrectanswer());
+                Log.d(LOG_TAG,checkedId + "");
+                isCorrect = questions.get(currentquestionnumber).getCorrectanswer().equals(String.valueOf(checkedId));
+                Log.d(LOG_TAG+ "iscorrct: ",String.valueOf(isCorrect));
             }
         });
         //Finally, call handleInstanceState, to handle device rotation
@@ -105,6 +137,7 @@ public class MainQuizActivity extends Activity {
      */
     private void handleInstanceState(Bundle savedInstanceState) {
         if(savedInstanceState!=null){
+            this.isCorrect = savedInstanceState.getBoolean(IS_QUESTION_CORRECT);
             answergroup.removeAllViews();
             currentquestionnumber = savedInstanceState.getInt(QUESTION_NUMBER);
             if(currentquestionnumber <numberofquestions){
@@ -129,6 +162,7 @@ public class MainQuizActivity extends Activity {
         questionTextView.setText(questions.get(currentquestionnumber).getQuestion());
     }
 
+
     /**
      * Fired when an instance state is being saved
      * @param instanceState The instance state to save data into
@@ -138,5 +172,7 @@ public class MainQuizActivity extends Activity {
         instanceState.putInt(QUESTION_NUMBER,currentquestionnumber);
         instanceState.putString(QUESTION_TEXT_VIEW,questionTextView.getText().toString());
         instanceState.putInt(RADIO_BTN_INDEX,answergroup.getCheckedRadioButtonId());
+        instanceState.putBoolean(IS_QUESTION_CORRECT,this.isCorrect);
+        instanceState.putInt(GAME_SCORE,this.score);
     }
 }

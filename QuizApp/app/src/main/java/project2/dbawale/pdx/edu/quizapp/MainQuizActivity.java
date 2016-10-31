@@ -96,7 +96,6 @@ public class MainQuizActivity extends Activity {
                 else{
                     String final_string = "Game over!\nYour score is: "+ score;
                     questionTextView.setText(final_string);
-                    Log.d(LOG_TAG,String.valueOf(score));
                     nextbutton.setVisibility(View.GONE);
 
                 }
@@ -106,10 +105,7 @@ public class MainQuizActivity extends Activity {
         answergroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Log.d(LOG_TAG,questions.get(currentquestionnumber).getCorrectanswer());
-                Log.d(LOG_TAG,checkedId + "");
                 isCorrect = questions.get(currentquestionnumber).getCorrectanswer().equals(String.valueOf(checkedId));
-                Log.d(LOG_TAG+ "iscorrct: ",String.valueOf(isCorrect));
             }
         });
         //Finally, call handleInstanceState, to handle device rotation
@@ -138,6 +134,7 @@ public class MainQuizActivity extends Activity {
     private void handleInstanceState(Bundle savedInstanceState) {
         if(savedInstanceState!=null){
             this.isCorrect = savedInstanceState.getBoolean(IS_QUESTION_CORRECT);
+            this.score = savedInstanceState.getInt(GAME_SCORE);
             answergroup.removeAllViews();
             currentquestionnumber = savedInstanceState.getInt(QUESTION_NUMBER);
             if(currentquestionnumber <numberofquestions){

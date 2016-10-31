@@ -30,7 +30,7 @@ public class Question {
      * Getter for the correct answer
      * @return The correct answer
      */
-    String getCorrectanswer() {
+    public String getCorrectanswer() {
         return correctanswer;
     }
 

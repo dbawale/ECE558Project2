@@ -32,6 +32,7 @@ public class MainQuizActivity extends Activity {
     private final String RADIO_BTN_INDEX = "edu.pdx.dbawale.project2.radiobuttonindex";
     private final String IS_QUESTION_CORRECT = "edu.pdx.dbawale.project2.iscorrectboolean";
     private final String GAME_SCORE = "edu.pdx.dbawale.project2.score";
+    private final String IS_GAME_OVER = "edu.pdx.dbawale.project2.isgameover";
 
     //Android widgets for displaying questions and controlling the quiz
     TextView questionTextView;
@@ -39,17 +40,19 @@ public class MainQuizActivity extends Activity {
     Button nextbutton;
 
     //Quiz specific data structures, imported from Project 1
-    ArrayList<Question>questions;
-    int numberofquestions,currentquestionnumber=0;
+    ArrayList<Question> questions;
+    int numberofquestions, currentquestionnumber = 0;
     Quiz quiz;
 
     //Other variables required for app functionality
-    Boolean isCorrect=false;
-    int score=0;
+    Boolean isCorrect = false;
+    int score = 0;
+    Boolean isGameOver = false;
 
     /**
      * The onCreate method for the main activity
      * Sets up the listeners for buttons and inflates the layout
+     *
      * @param savedInstanceState The instance state that may be previously saved
      */
     @Override
@@ -67,9 +70,9 @@ public class MainQuizActivity extends Activity {
         //Dynamically add radio buttons to the layout, depending on the number of options
         //in the question
         int numberofradiobtns = questions.get(currentquestionnumber).getAnswers().getAnswers().size();
-        drawRadioButtons(numberofradiobtns,answergroup );
+        drawRadioButtons(numberofradiobtns, answergroup);
 
-        nextbutton = (Button)findViewById(R.id.button1);
+        nextbutton = (Button) findViewById(R.id.button1);
         questionTextView = (TextView) findViewById(R.id.textview1);
         questionTextView.setText(questions.get(currentquestionnumber).getQuestion());
 
@@ -77,27 +80,25 @@ public class MainQuizActivity extends Activity {
         nextbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isCorrect){
-                    Toast.makeText(MainQuizActivity.this,R.string.correctanswer,Toast.LENGTH_SHORT).show();
-                    score +=1;
-                }
-                else{
-                    Toast.makeText(MainQuizActivity.this,R.string.incorrectanswer,Toast.LENGTH_SHORT).show();
+                if (isCorrect) {
+                    Toast.makeText(MainQuizActivity.this, R.string.correctanswer, Toast.LENGTH_SHORT).show();
+                    score += 1;
+                } else {
+                    Toast.makeText(MainQuizActivity.this, R.string.incorrectanswer, Toast.LENGTH_SHORT).show();
                 }
 
                 //First, clear the layout
                 answergroup.removeAllViews();
 
                 //Then, load the layout again
-                currentquestionnumber +=1;
-                if(currentquestionnumber <numberofquestions){
+                currentquestionnumber += 1;
+                if (currentquestionnumber < numberofquestions) {
                     addViewToLayout();
-                }
-                else{
-                    String final_string = "Game over!\nYour score is: "+ score;
+                } else {
+                    isGameOver = true;
+                    String final_string = "Game over!\nYour score is: " + score;
                     questionTextView.setText(final_string);
                     nextbutton.setVisibility(View.GONE);
-
                 }
             }
         });
@@ -115,11 +116,12 @@ public class MainQuizActivity extends Activity {
     /**
      * Dynamically adds radiobuttons to the radio group
      * and set answer text on radio buttons
+     *
      * @param numberofradiobtns Number of buttons to draw
-     * @param group The RadioGroup to add radio buttons to
+     * @param group             The RadioGroup to add radio buttons to
      */
     private void drawRadioButtons(int numberofradiobtns, RadioGroup group) {
-        for(int i=0;i<numberofradiobtns;i++) {
+        for (int i = 0; i < numberofradiobtns; i++) {
             RadioButton radiobutton = new RadioButton(this);
             radiobutton.setText(questions.get(currentquestionnumber).getAnswers().getAnswers().get(i).second);
             radiobutton.setId(i);
@@ -129,21 +131,24 @@ public class MainQuizActivity extends Activity {
 
     /**
      * Restores the instance state, if previously saved
+     *
      * @param savedInstanceState The previously saved instance state
      */
     private void handleInstanceState(Bundle savedInstanceState) {
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             this.isCorrect = savedInstanceState.getBoolean(IS_QUESTION_CORRECT);
             this.score = savedInstanceState.getInt(GAME_SCORE);
+            this.isGameOver = savedInstanceState.getBoolean(IS_GAME_OVER);
             answergroup.removeAllViews();
             currentquestionnumber = savedInstanceState.getInt(QUESTION_NUMBER);
-            if(currentquestionnumber <numberofquestions){
+            if (currentquestionnumber < numberofquestions) {
                 addViewToLayout();
                 answergroup.check(savedInstanceState.getInt(RADIO_BTN_INDEX));
-            }
-            else
-            {
+            } else {
                 questionTextView.setText(savedInstanceState.getString(QUESTION_TEXT_VIEW));
+            }
+            if (isGameOver) {
+                nextbutton.setVisibility(View.GONE);
             }
         }
     }
@@ -162,14 +167,15 @@ public class MainQuizActivity extends Activity {
 
     /**
      * Fired when an instance state is being saved
+     *
      * @param instanceState The instance state to save data into
      */
     @Override
-    public void onSaveInstanceState(Bundle instanceState){
-        instanceState.putInt(QUESTION_NUMBER,currentquestionnumber);
-        instanceState.putString(QUESTION_TEXT_VIEW,questionTextView.getText().toString());
-        instanceState.putInt(RADIO_BTN_INDEX,answergroup.getCheckedRadioButtonId());
-        instanceState.putBoolean(IS_QUESTION_CORRECT,this.isCorrect);
-        instanceState.putInt(GAME_SCORE,this.score);
+    public void onSaveInstanceState(Bundle instanceState) {
+        instanceState.putInt(QUESTION_NUMBER, currentquestionnumber);
+        instanceState.putString(QUESTION_TEXT_VIEW, questionTextView.getText().toString());
+        instanceState.putInt(RADIO_BTN_INDEX, answergroup.getCheckedRadioButtonId());
+        instanceState.putBoolean(IS_QUESTION_CORRECT, this.isCorrect);
+        instanceState.putBoolean(IS_GAME_OVER, isGameOver);
     }
 }

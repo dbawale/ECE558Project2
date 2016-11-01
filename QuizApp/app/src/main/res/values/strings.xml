@@ -5,4 +5,5 @@
     <string name="textviewplaceholder">Text</string>
     <string name="correctanswer">Correct Answer!</string>
     <string name="incorrectanswer">Incorrect Answer!</string>
+    <string name="playagain">Play Again!</string>
 </resources>

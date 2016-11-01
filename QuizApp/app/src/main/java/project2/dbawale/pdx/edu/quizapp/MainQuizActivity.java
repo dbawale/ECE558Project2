@@ -37,7 +37,7 @@ public class MainQuizActivity extends Activity {
     //Android widgets for displaying questions and controlling the quiz
     TextView questionTextView;
     RadioGroup answergroup;
-    Button nextbutton;
+    Button nextbutton,playagainbutton;
 
     //Quiz specific data structures, imported from Project 1
     ArrayList<Question> questions;
@@ -72,7 +72,9 @@ public class MainQuizActivity extends Activity {
         int numberofradiobtns = questions.get(currentquestionnumber).getAnswers().getAnswers().size();
         drawRadioButtons(numberofradiobtns, answergroup);
 
+        //Set the required widgets for the UI
         nextbutton = (Button) findViewById(R.id.button1);
+        playagainbutton = (Button) findViewById(R.id.playagain);
         questionTextView = (TextView) findViewById(R.id.textview1);
         questionTextView.setText(questions.get(currentquestionnumber).getQuestion());
 
@@ -99,7 +101,25 @@ public class MainQuizActivity extends Activity {
                     String final_string = "Game over!\nYour score is: " + score;
                     questionTextView.setText(final_string);
                     nextbutton.setVisibility(View.GONE);
+                    playagainbutton.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        playagainbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Restart the game when Play again is clicked
+                playagainbutton.setVisibility(View.INVISIBLE);
+                currentquestionnumber=0;
+                int numberofradiobtns = questions.get(currentquestionnumber).getAnswers().getAnswers().size();
+                drawRadioButtons(numberofradiobtns, answergroup);
+                questionTextView = (TextView) findViewById(R.id.textview1);
+                questionTextView.setText(questions.get(currentquestionnumber).getQuestion());
+                nextbutton.setVisibility(View.VISIBLE);
+                score=0;
+                isGameOver = false;
             }
         });
 
@@ -136,6 +156,8 @@ public class MainQuizActivity extends Activity {
      */
     private void handleInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
+            playagainbutton.setVisibility(View.INVISIBLE);
+            nextbutton.setVisibility(View.VISIBLE);
             this.isCorrect = savedInstanceState.getBoolean(IS_QUESTION_CORRECT);
             this.score = savedInstanceState.getInt(GAME_SCORE);
             this.isGameOver = savedInstanceState.getBoolean(IS_GAME_OVER);
@@ -148,7 +170,8 @@ public class MainQuizActivity extends Activity {
                 questionTextView.setText(savedInstanceState.getString(QUESTION_TEXT_VIEW));
             }
             if (isGameOver) {
-                nextbutton.setVisibility(View.GONE);
+                nextbutton.setVisibility(View.INVISIBLE);
+                playagainbutton.setVisibility(View.VISIBLE);
             }
         }
     }

@@ -32,5 +32,12 @@
         android:elevation="0dp"
         android:gravity="center"
         android:textSize="@dimen/question_default_font"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="@string/playagain"
+        android:id="@+id/playagain"
+        android:textSize="@dimen/question_default_font"/>
 
 </LinearLayout>

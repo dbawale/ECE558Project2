@@ -1,6 +1,7 @@
 package project2.dbawale.pdx.edu.quizapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,9 @@ public class MainQuizActivity extends Activity {
     private final String IS_QUESTION_CORRECT = "edu.pdx.dbawale.project2.iscorrectboolean";
     private final String GAME_SCORE = "edu.pdx.dbawale.project2.score";
     private final String IS_GAME_OVER = "edu.pdx.dbawale.project2.isgameover";
+
+    //Request code for cheat activity
+    private final int CHEAT_ACTIVITY_REQUEST =1;
 
     //Android widgets for displaying questions and controlling the quiz
     TextView questionTextView;
@@ -134,6 +138,15 @@ public class MainQuizActivity extends Activity {
             }
         });
 
+        cheatbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainQuizActivity.this,CheatActivity.class);
+                intent.putExtra(QUESTION_NUMBER,currentquestionnumber);
+                startActivityForResult(intent,CHEAT_ACTIVITY_REQUEST);
+            }
+        });
 
         //Finally, call handleInstanceState, to handle device rotation
         handleInstanceState(savedInstanceState);

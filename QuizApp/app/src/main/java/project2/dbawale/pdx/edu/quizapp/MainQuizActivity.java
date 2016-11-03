@@ -86,6 +86,7 @@ public class MainQuizActivity extends Activity {
                 if (isCorrect) {
                     Toast.makeText(MainQuizActivity.this, R.string.correctanswer, Toast.LENGTH_SHORT).show();
                     score += 1;
+                    isCorrect=false;
                 } else {
                     Toast.makeText(MainQuizActivity.this, R.string.incorrectanswer, Toast.LENGTH_SHORT).show();
                 }
@@ -132,6 +133,8 @@ public class MainQuizActivity extends Activity {
                 isCorrect = questions.get(currentquestionnumber).getCorrectanswer().equals(String.valueOf(checkedId));
             }
         });
+
+
         //Finally, call handleInstanceState, to handle device rotation
         handleInstanceState(savedInstanceState);
     }

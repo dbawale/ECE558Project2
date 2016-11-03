@@ -37,7 +37,7 @@ public class MainQuizActivity extends Activity {
     //Android widgets for displaying questions and controlling the quiz
     TextView questionTextView;
     RadioGroup answergroup;
-    Button nextbutton,playagainbutton;
+    Button nextbutton,playagainbutton,cheatbutton;
 
     //Quiz specific data structures, imported from Project 1
     ArrayList<Question> questions;
@@ -77,6 +77,7 @@ public class MainQuizActivity extends Activity {
         playagainbutton = (Button) findViewById(R.id.playagain);
         questionTextView = (TextView) findViewById(R.id.textview1);
         questionTextView.setText(questions.get(currentquestionnumber).getQuestion());
+        cheatbutton = (Button) findViewById(R.id.cheatbutton);
 
         //Anonymous onClickListener for the 'Next' button
         nextbutton.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +103,7 @@ public class MainQuizActivity extends Activity {
                     questionTextView.setText(final_string);
                     nextbutton.setVisibility(View.GONE);
                     playagainbutton.setVisibility(View.VISIBLE);
+                    cheatbutton.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -112,6 +114,7 @@ public class MainQuizActivity extends Activity {
 
                 //Restart the game when Play again is clicked
                 playagainbutton.setVisibility(View.INVISIBLE);
+                cheatbutton.setVisibility(View.VISIBLE);
                 currentquestionnumber=0;
                 int numberofradiobtns = questions.get(currentquestionnumber).getAnswers().getAnswers().size();
                 drawRadioButtons(numberofradiobtns, answergroup);
@@ -172,6 +175,7 @@ public class MainQuizActivity extends Activity {
             if (isGameOver) {
                 nextbutton.setVisibility(View.INVISIBLE);
                 playagainbutton.setVisibility(View.VISIBLE);
+                cheatbutton.setVisibility(View.INVISIBLE);
             }
         }
     }

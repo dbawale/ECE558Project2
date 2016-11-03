@@ -29,11 +29,18 @@
         android:id="@+id/button1"
         android:textSize="@dimen/question_default_font"/>
     <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/cheatbutton"
+        android:text="@string/cheat"
+        android:textSize="@dimen/question_default_font"/>
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:text="@string/playagain"
         android:id="@+id/playagain"
         android:textSize="@dimen/question_default_font"/>
+
 
 </LinearLayout>

@@ -9,13 +9,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainQuizActivity">
-            <!--Set that this activity is the one to be launched as soon as the app launches-->
+
+            <!-- Set that this activity is the one to be launched as soon as the app launches -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CheatActivity"></activity>
     </application>
 
 </manifest>

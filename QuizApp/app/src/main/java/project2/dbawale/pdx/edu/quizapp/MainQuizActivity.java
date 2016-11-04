@@ -34,6 +34,7 @@ public class MainQuizActivity extends Activity {
     private final String IS_QUESTION_CORRECT = "edu.pdx.dbawale.project2.iscorrectboolean";
     private final String GAME_SCORE = "edu.pdx.dbawale.project2.score";
     private final String IS_GAME_OVER = "edu.pdx.dbawale.project2.isgameover";
+    private final String HAS_CHEATED = "edu.pdx.dbawale.project2.hascheated";
 
     //Request code for cheat activity
     private final int CHEAT_ACTIVITY_REQUEST =1;
@@ -150,6 +151,24 @@ public class MainQuizActivity extends Activity {
 
         //Finally, call handleInstanceState, to handle device rotation
         handleInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode==CHEAT_ACTIVITY_REQUEST){
+            if(resultCode==RESULT_OK){
+                 Bundle bundle = data.getExtras();
+                if(bundle!=null) {
+                    boolean hasCheated = bundle.getBoolean(HAS_CHEATED);
+                    if(hasCheated){
+                        Toast.makeText(MainQuizActivity.this, "If you cheat, you won't win", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(MainQuizActivity.this, "I'm glad you didn't go over to the dark side!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        }
     }
 
     /**

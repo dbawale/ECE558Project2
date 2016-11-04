@@ -7,4 +7,6 @@
     <string name="incorrectanswer">Incorrect Answer!</string>
     <string name="playagain">Play Again!</string>
     <string name="cheat">Cheat!</string>
+    <string name="sure_cheat">Are you sure you want to cheat?</string>
+    <string name="back">Back</string>
 </resources>

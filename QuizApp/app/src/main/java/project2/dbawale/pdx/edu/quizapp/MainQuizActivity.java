@@ -27,7 +27,7 @@ public class MainQuizActivity extends Activity {
     //String for log tag for main activity
     private final String LOG_TAG = "MAIN_ACTIVITY";
 
-    //String for identifying question number from a Bundle
+    //Constant strings for identifying data passed around in a bundle or intent
     private final String QUESTION_NUMBER = "edu.pdx.dbawale.project2.questionnumber";
     private final String QUESTION_TEXT_VIEW = "edu.pdx.dbawale.project2.questiontextview";
     private final String RADIO_BTN_INDEX = "edu.pdx.dbawale.project2.radiobuttonindex";
@@ -53,6 +53,7 @@ public class MainQuizActivity extends Activity {
     Boolean isCorrect = false;
     int score = 0;
     Boolean isGameOver = false;
+    boolean hasCheated=false;
 
     /**
      * The onCreate method for the main activity
@@ -62,20 +63,15 @@ public class MainQuizActivity extends Activity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Call super.onCreate and inflate the view
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_quiz);
-        quiz = new Quiz();
 
         //Set up the default quiz, the same as Project1
+        quiz = new Quiz();
         quiz.setupDefaultQuiz();
         questions = quiz.getQuestions();
         numberofquestions = questions.size();
-        answergroup = (RadioGroup) findViewById(R.id.default_radio_group);
-
-        //Dynamically add radio buttons to the layout, depending on the number of options
-        //in the question
-        int numberofradiobtns = questions.get(currentquestionnumber).getAnswers().getAnswers().size();
-        drawRadioButtons(numberofradiobtns, answergroup);
 
         //Set the required widgets for the UI
         nextbutton = (Button) findViewById(R.id.button1);
@@ -83,20 +79,32 @@ public class MainQuizActivity extends Activity {
         questionTextView = (TextView) findViewById(R.id.textview1);
         questionTextView.setText(questions.get(currentquestionnumber).getQuestion());
         cheatbutton = (Button) findViewById(R.id.cheatbutton);
+        answergroup = (RadioGroup) findViewById(R.id.default_radio_group);
+
+        //Dynamically add radio buttons to the layout, depending on the number of options
+        //in the question
+        int numberofradiobtns = questions.get(currentquestionnumber).getAnswers().getAnswers().size();
+        drawRadioButtons(numberofradiobtns, answergroup);
 
         //Anonymous onClickListener for the 'Next' button
         nextbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Display a toast that tells whether the previous answer was correct or not
                 if (isCorrect) {
                     Toast.makeText(MainQuizActivity.this, R.string.correctanswer, Toast.LENGTH_SHORT).show();
-                    score += 1;
+                    if(!hasCheated){
+                        score += 1;
+                    }
                     isCorrect=false;
                 } else {
                     Toast.makeText(MainQuizActivity.this, R.string.incorrectanswer, Toast.LENGTH_SHORT).show();
                 }
 
-                //First, clear the layout
+                //For each new question, give the user an opportunity to think about conscience
+                hasCheated=false;
+
+                //Clear the layout
                 answergroup.removeAllViews();
 
                 //Then, load the layout again
@@ -114,6 +122,7 @@ public class MainQuizActivity extends Activity {
             }
         });
 
+        //Anonymous onClickListener for 'Play Again' button
         playagainbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +144,7 @@ public class MainQuizActivity extends Activity {
         answergroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //Set whether the answer is correct, but don't show it yet
                 isCorrect = questions.get(currentquestionnumber).getCorrectanswer().equals(String.valueOf(checkedId));
             }
         });
@@ -142,9 +152,12 @@ public class MainQuizActivity extends Activity {
         cheatbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Start a new activity, and pass whether the current question number
+                //and whether the user has already cheated on this question
                 Intent intent = new Intent();
                 intent.setClass(MainQuizActivity.this,CheatActivity.class);
                 intent.putExtra(QUESTION_NUMBER,currentquestionnumber);
+                intent.putExtra(HAS_CHEATED,hasCheated);
                 startActivityForResult(intent,CHEAT_ACTIVITY_REQUEST);
             }
         });
@@ -153,15 +166,23 @@ public class MainQuizActivity extends Activity {
         handleInstanceState(savedInstanceState);
     }
 
+    /**
+     * Fired when an activity that has been started for result returns a result
+     * @param requestCode The request code that was used to start the activity
+     * @param resultCode The result code from the activity
+     * @param data //The intent from the activity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        //Process result, only if it it was requested from cheat activity
         if(requestCode==CHEAT_ACTIVITY_REQUEST){
+            //Get result from bundle, and chastise user accordingly
             if(resultCode==RESULT_OK){
                  Bundle bundle = data.getExtras();
                 if(bundle!=null) {
-                    boolean hasCheated = bundle.getBoolean(HAS_CHEATED);
+                    hasCheated = bundle.getBoolean(HAS_CHEATED);
                     if(hasCheated){
-                        Toast.makeText(MainQuizActivity.this, "If you cheat, you won't win", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainQuizActivity.this, "If you cheat, you won't win. Score won't be counted for this question.", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         Toast.makeText(MainQuizActivity.this, "I'm glad you didn't go over to the dark side!", Toast.LENGTH_SHORT).show();

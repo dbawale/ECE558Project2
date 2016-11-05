@@ -141,6 +141,7 @@ public class MainQuizActivity extends Activity {
             }
         });
 
+        //Anonymous onCheckedChangeListener for the RadioGroup
         answergroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -149,6 +150,7 @@ public class MainQuizActivity extends Activity {
             }
         });
 
+        //Anonymous onClickListener for Cheat button
         cheatbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

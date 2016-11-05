@@ -24,7 +24,12 @@
         android:id="@+id/default_radio_group"
         android:gravity="left">
     </RadioGroup>
-    <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next"
@@ -32,12 +37,22 @@
         android:elevation="0dp"
         android:gravity="center"
         android:textSize="@dimen/question_default_font"/>
-    <Button
-        android:layout_height="wrap_content"
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/cheatbutton"
+            android:text="@string/cheat"
+            android:textSize="@dimen/question_default_font"/>
+    </LinearLayout>
+
+    <TextView
         android:layout_width="wrap_content"
-        android:id="@+id/cheatbutton"
-        android:text="@string/cheat"
-        android:textSize="@dimen/question_default_font"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/livescore"
+        android:text="@string/defaultscorestring"
+        android:textSize="@dimen/question_default_font"
+        />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

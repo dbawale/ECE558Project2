@@ -35,12 +35,13 @@ public class MainQuizActivity extends Activity {
     private final String GAME_SCORE = "edu.pdx.dbawale.project2.score";
     private final String IS_GAME_OVER = "edu.pdx.dbawale.project2.isgameover";
     private final String HAS_CHEATED = "edu.pdx.dbawale.project2.hascheated";
+    private final String SCORE_TEXT = "edu.pdx.dbawale.project2.scoretext";
 
     //Request code for cheat activity
     private final int CHEAT_ACTIVITY_REQUEST =1;
 
     //Android widgets for displaying questions and controlling the quiz
-    TextView questionTextView;
+    TextView questionTextView,currentScoreTextView;
     RadioGroup answergroup;
     Button nextbutton,playagainbutton,cheatbutton;
 
@@ -80,6 +81,7 @@ public class MainQuizActivity extends Activity {
         questionTextView.setText(questions.get(currentquestionnumber).getQuestion());
         cheatbutton = (Button) findViewById(R.id.cheatbutton);
         answergroup = (RadioGroup) findViewById(R.id.default_radio_group);
+        currentScoreTextView = (TextView) findViewById(R.id.livescore);
 
         //Dynamically add radio buttons to the layout, depending on the number of options
         //in the question
@@ -95,6 +97,7 @@ public class MainQuizActivity extends Activity {
                     Toast.makeText(MainQuizActivity.this, R.string.correctanswer, Toast.LENGTH_SHORT).show();
                     if(!hasCheated){
                         score += 1;
+                        currentScoreTextView.setText("Your score is: " + score + " /" + numberofquestions);
                     }
                     isCorrect=false;
                 } else {
@@ -118,6 +121,7 @@ public class MainQuizActivity extends Activity {
                     nextbutton.setVisibility(View.GONE);
                     playagainbutton.setVisibility(View.VISIBLE);
                     cheatbutton.setVisibility(View.INVISIBLE);
+                    currentScoreTextView.setText("");
                 }
             }
         });
@@ -138,6 +142,7 @@ public class MainQuizActivity extends Activity {
                 nextbutton.setVisibility(View.VISIBLE);
                 score=0;
                 isGameOver = false;
+                currentScoreTextView.setText(R.string.defaultscorestring);
             }
         });
 
@@ -222,6 +227,7 @@ public class MainQuizActivity extends Activity {
             this.isCorrect = savedInstanceState.getBoolean(IS_QUESTION_CORRECT);
             this.score = savedInstanceState.getInt(GAME_SCORE);
             this.isGameOver = savedInstanceState.getBoolean(IS_GAME_OVER);
+            currentScoreTextView.setText(savedInstanceState.getString(SCORE_TEXT));
             answergroup.removeAllViews();
             currentquestionnumber = savedInstanceState.getInt(QUESTION_NUMBER);
             if (currentquestionnumber < numberofquestions) {
@@ -262,5 +268,6 @@ public class MainQuizActivity extends Activity {
         instanceState.putInt(RADIO_BTN_INDEX, answergroup.getCheckedRadioButtonId());
         instanceState.putBoolean(IS_QUESTION_CORRECT, this.isCorrect);
         instanceState.putBoolean(IS_GAME_OVER, isGameOver);
+        instanceState.putString(SCORE_TEXT,currentScoreTextView.getText().toString());
     }
 }

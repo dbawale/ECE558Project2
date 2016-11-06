@@ -10,6 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@drawable/background"
     tools:context=".MainQuizActivity">
     <TextView
         android:layout_width="wrap_content"
@@ -17,7 +18,8 @@
         android:text="@string/textviewplaceholder"
         android:id="@+id/textview1"
         android:gravity="center"
-        android:textSize="@dimen/question_default_font"/>
+        android:textSize="@dimen/question_default_font"
+        android:textColor="@color/black"/>
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,6 +53,7 @@
         android:id="@+id/livescore"
         android:text="@string/defaultscorestring"
         android:textSize="@dimen/question_default_font"
+        android:textColor="@color/black"
         />
 
     <Button

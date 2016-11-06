@@ -7,5 +7,5 @@
     <dimen name="question_default_font">28sp</dimen>
 
     <!--Default font for answer text-->
-    <dimen name="answer_default_font">18sp</dimen>
+    <dimen name="answer_default_font">14sp</dimen>
 </resources>

@@ -210,6 +210,7 @@ public class MainQuizActivity extends Activity {
         for (int i = 0; i < numberofradiobtns; i++) {
             RadioButton radiobutton = new RadioButton(this);
             radiobutton.setText(questions.get(currentquestionnumber).getAnswers().getAnswers().get(i).second);
+            radiobutton.setTextAppearance(MainQuizActivity.this,android.R.style.TextAppearance_DeviceDefault_Large);
             radiobutton.setId(i);
             group.addView(radiobutton);
         }

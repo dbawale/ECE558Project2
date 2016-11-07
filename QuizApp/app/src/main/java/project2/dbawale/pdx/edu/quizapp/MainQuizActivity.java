@@ -88,41 +88,19 @@ public class MainQuizActivity extends Activity {
         int numberofradiobtns = questions.get(currentquestionnumber).getAnswers().getAnswers().size();
         drawRadioButtons(numberofradiobtns, answergroup);
 
+        questionTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNextQuestion();
+            }
+        });
+
         //Anonymous onClickListener for the 'Next' button
         nextbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Display a toast that tells whether the previous answer was correct or not
-                if (isCorrect) {
-                    Toast.makeText(MainQuizActivity.this, R.string.correctanswer, Toast.LENGTH_SHORT).show();
-                    if(!hasCheated){
-                        score += 1;
-                        currentScoreTextView.setText("Your score is: " + score + " /" + numberofquestions);
-                    }
-                    isCorrect=false;
-                } else {
-                    Toast.makeText(MainQuizActivity.this, R.string.incorrectanswer, Toast.LENGTH_SHORT).show();
-                }
+                showNextQuestion();
 
-                //For each new question, give the user an opportunity to think about conscience
-                hasCheated=false;
-
-                //Clear the layout
-                answergroup.removeAllViews();
-
-                //Then, load the layout again
-                currentquestionnumber += 1;
-                if (currentquestionnumber < numberofquestions) {
-                    addViewToLayout();
-                } else {
-                    isGameOver = true;
-                    String final_string = "Game over!\nYour score is: " + score;
-                    questionTextView.setText(final_string);
-                    nextbutton.setVisibility(View.GONE);
-                    playagainbutton.setVisibility(View.VISIBLE);
-                    cheatbutton.setVisibility(View.INVISIBLE);
-                    currentScoreTextView.setText("");
-                }
             }
         });
 
@@ -171,6 +149,40 @@ public class MainQuizActivity extends Activity {
 
         //Finally, call handleInstanceState, to handle device rotation
         handleInstanceState(savedInstanceState);
+    }
+
+    private void showNextQuestion() {
+        //Display a toast that tells whether the previous answer was correct or not
+        if (isCorrect) {
+            Toast.makeText(MainQuizActivity.this, R.string.correctanswer, Toast.LENGTH_SHORT).show();
+            if(!hasCheated){
+                score += 1;
+                currentScoreTextView.setText("Your score is: " + score + " /" + numberofquestions);
+            }
+            isCorrect=false;
+        } else if(!isGameOver){
+            Toast.makeText(MainQuizActivity.this, R.string.incorrectanswer, Toast.LENGTH_SHORT).show();
+        }
+
+        //For each new question, give the user an opportunity to think about conscience
+        hasCheated=false;
+
+        //Clear the layout
+        answergroup.removeAllViews();
+
+        //Then, load the layout again
+        currentquestionnumber += 1;
+        if (currentquestionnumber < numberofquestions) {
+            addViewToLayout();
+        } else {
+            isGameOver = true;
+            String final_string = "Game over!\nFinal score is: " + score + "/" + numberofquestions;
+            questionTextView.setText(final_string);
+            nextbutton.setVisibility(View.GONE);
+            playagainbutton.setVisibility(View.VISIBLE);
+            cheatbutton.setVisibility(View.INVISIBLE);
+            currentScoreTextView.setText("");
+        }
     }
 
     /**

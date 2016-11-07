@@ -152,6 +152,7 @@ public class MainQuizActivity extends Activity {
     }
 
     private void showNextQuestion() {
+
         //Display a toast that tells whether the previous answer was correct or not
         if (isCorrect) {
             Toast.makeText(MainQuizActivity.this, R.string.correctanswer, Toast.LENGTH_SHORT).show();
@@ -164,6 +165,7 @@ public class MainQuizActivity extends Activity {
             Toast.makeText(MainQuizActivity.this, R.string.incorrectanswer, Toast.LENGTH_SHORT).show();
         }
 
+        answergroup.clearCheck();
         //For each new question, give the user an opportunity to think about conscience
         hasCheated=false;
 
